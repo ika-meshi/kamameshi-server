@@ -1,0 +1,19 @@
+ 
+#cloud-config
+timezone: Asia/Tokyo
+disable_root: True
+
+runcmd:
+    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    - echo "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -ics | sed -e 's/\(.*\)/\L\1/'  | tr '\n' ' ') edge" > /etc/apt/sources.list.d/docker.list
+    - curl -L --fail https://gist.githubusercontent.com/flll/59f7e541d642d5e0fd945cbb8febcf4b/raw/5accc79af6f5a0d34ff896db5ca54a9851a5b0d1/sources.list -o /etc/apt/sources.list
+    - sudo apt update
+    - sudo apt install docker-ce ca-certificates cron net-tools -y
+    - sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    - sudo chmod +x /usr/local/bin/docker-compose
+    - sudo apt autoremove -y
+    - sudo gpasswd -a lll docker
+    - sudo systemctl reboot
+
+nameservers:
+    addresses: [1.1.1.2,1.0.0.2]
