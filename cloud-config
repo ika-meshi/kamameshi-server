@@ -15,16 +15,6 @@ coreos:
         DNS=1.1.1.2
         DNS=1.0.0.2
 
-    - name: timezone.service
-      command: start
-      content: |
-        [Unit]
-        Description=timezone
-        [Service]
-        Type=oneshot
-        RemainAfterExit=yes
-        ExecStart=/usr/bin/ln -sf ../usr/share/zoneinfo/Japan /etc/localtime
-
 users: # ユーザ名を指定（ログインユーザ）
   - name: core
     ssh_authorized_keys:
